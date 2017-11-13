@@ -1,5 +1,6 @@
 import editdistance
 import nltk
+import numpy as np
 from nltk.corpus import brown
 from nltk.corpus import stopwords
 
@@ -11,22 +12,20 @@ all_words = set(brown.words())
 if our_word in all_words :
 	print "The word you entered is valid."
 else :
-	length_of_our_word = len(our_word)
 
 	stop_words = set(stopwords.words('english'))
 
 	filtered_words = [word for word in all_words if not word.lower() in stop_words]
 
-	min_edit_dist = editdistance.eval(our_word, filtered_words[0])	
+	np_filtered_words = np.array(filtered_words)
 
-	for word in filtered_words :
-		min_edit_dist = min(min_edit_dist, editdistance.eval(our_word, word))
+	editdistance_array = lambda word: editdistance.eval(our_word, word)
 
-	words_with_min_edit_dist = []	
+	set_of_editdistance = np.vectorize(editdistance_array)
 
-	for word in filtered_words :
-		if editdistance.eval(our_word, word) == min_edit_dist :
-			words_with_min_edit_dist.append(word)
+	edit_distance_for_each_word = set_of_editdistance(np_filtered_words)
+
+	words_with_min_edit_dist = np_filtered_words[ edit_distance_for_each_word == np.amin(edit_distance_for_each_word)]
 
 	print "The word you entered is not valid, try in the list provided."		
 	print(words_with_min_edit_dist)
