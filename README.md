@@ -9,3 +9,4 @@
 * https://stackoverflow.com/questions/10640114/overlay-two-same-sized-images-in-python
 * https://pypi.python.org/pypi/python-resize-image/1.1.10
 * https://stackoverflow.com/questions/4033723/how-do-i-access-command-line-arguments-in-python
+* https://textblob.readthedocs.io/en/dev/
